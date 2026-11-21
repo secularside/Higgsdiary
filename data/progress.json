@@ -1,1 +1,179 @@
-{}
+{
+  "updated": "2026-11-21T11:26:49.245Z",
+  "status": "before",
+  "startDate": "2026-11-23",
+  "endDate": "2027-05-02",
+  "percent": 0,
+  "done": 0,
+  "total": 255,
+  "hours": 0,
+  "plannedToDate": 0,
+  "streak": 0,
+  "examsPassed": 0,
+  "week": 1,
+  "totalWeeks": 23,
+  "phase": {
+    "id": 1,
+    "name": "Math foundations"
+  },
+  "phasesDone": 0,
+  "phases": [
+    {
+      "id": 1,
+      "name": "Math foundations",
+      "short": "Math",
+      "color": "#2a78d6",
+      "pct": 0,
+      "cleared": false
+    },
+    {
+      "id": 2,
+      "name": "Physics bridge",
+      "short": "Physics",
+      "color": "#eb6834",
+      "pct": 0,
+      "cleared": false
+    },
+    {
+      "id": 3,
+      "name": "Quantum & nuclear",
+      "short": "Quantum",
+      "color": "#1baf7a",
+      "pct": 0,
+      "cleared": false
+    },
+    {
+      "id": 4,
+      "name": "Particle physics",
+      "short": "Particles",
+      "color": "#6250d6",
+      "pct": 0,
+      "cleared": false
+    },
+    {
+      "id": 5,
+      "name": "Higgs",
+      "short": "Higgs",
+      "color": "#e34948",
+      "pct": 0,
+      "cleared": false
+    }
+  ],
+  "weeks": [
+    {
+      "label": "1",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "2",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "3",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "4",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "5",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "6",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "7",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "8",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "9",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "10",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "11",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "12",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "13",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "14",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "15",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "16",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "17",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "18",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "19",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "20",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "21",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "22",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "23",
+      "hours": 0,
+      "future": true
+    }
+  ]
+}
