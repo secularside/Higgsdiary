@@ -1,17 +1,17 @@
 {
-  "updated": "2026-11-21T11:41:58.229Z",
+  "updated": "2026-11-21T11:43:00.316Z",
   "status": "before",
   "startDate": "2026-11-23",
-  "endDate": "2027-05-02",
+  "endDate": "2027-05-16",
   "percent": 0,
   "done": 0,
-  "total": 255,
+  "total": 273,
   "hours": 0,
   "plannedToDate": 0,
   "streak": 0,
   "examsPassed": 0,
   "week": 1,
-  "totalWeeks": 23,
+  "totalWeeks": 25,
   "phase": {
     "id": 1,
     "name": "Math foundations"
@@ -81,7 +81,17 @@
       "future": true
     },
     {
+      "label": "break",
+      "hours": 0,
+      "future": true
+    },
+    {
       "label": "5",
+      "hours": 0,
+      "future": true
+    },
+    {
+      "label": "break",
       "hours": 0,
       "future": true
     },
