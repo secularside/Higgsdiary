@@ -1,0 +1,11 @@
+{
+  "name": "freechains",
+  "tagline": "An EEE student's log from linear algebra to the Higgs boson — projects, notes and the long road to 125 GeV.",
+  "about": "I'm an electrical & electronics engineering student who fell for particle physics. This site is my lab notebook in public: the projects I build on the way to understanding the Higgs boson, and blog posts about what I learn.\n\nRight now I'm working through a 23-week self-study program — linear algebra → quantum mechanics → particle physics → reproducing the Higgs discovery plot from real CERN open data.",
+  "links": {
+    "github": "https://github.com/secularside",
+    "email": "",
+    "linkedin": ""
+  },
+  "repo": { "owner": "secularside", "repo": "Higgsdiary", "branch": "main" }
+}

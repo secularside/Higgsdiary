@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../" data-page="blog">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog · freechains</title>
+  <meta name="theme-color" content="#05060d">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+  <main class="page narrow">
+    <h1 class="page-title">Logbook</h1>
+    <p class="page-sub">Notes on what I'm learning — math, physics, code.</p>
+    <div class="filters"><input type="search" id="q" placeholder="Search posts…" aria-label="Search posts"><span id="tags" style="display:flex;gap:6px;flex-wrap:wrap"></span></div>
+    <div class="post-list" id="list"><div class="muted">Loading…</div></div>
+  </main>
+  <script src="../assets/js/site.js"></script>
+  <script src="../assets/js/listing.js"></script>
+  <script>
+    (async () => {
+      const posts = Listing.visiblePosts(await FC.json("content/posts.json", []));
+      const params = new URLSearchParams(location.search);
+      let tag = params.get("tag") || "", q = "";
+      const tags = [...new Set(posts.flatMap((p) => p.tags || []))].sort();
+      function draw() {
+        document.getElementById("tags").innerHTML = tags.map((t) => `<button class="tag ${t === tag ? "on" : ""}" data-t="${FC.esc(t)}">#${FC.esc(t)}</button>`).join("");
+        const ql = q.toLowerCase();
+        const list = posts.filter((p) => (!tag || (p.tags || []).includes(tag)) && (!ql || (p.title + " " + (p.summary || "")).toLowerCase().includes(ql)));
+        document.getElementById("list").innerHTML = list.map(Listing.postItem).join("") || `<div class="empty">No posts found.</div>`;
+      }
+      document.getElementById("tags").addEventListener("click", (e) => { const b = e.target.closest("[data-t]"); if (b) { tag = tag === b.dataset.t ? "" : b.dataset.t; draw(); } });
+      document.getElementById("q").addEventListener("input", (e) => { q = e.target.value; draw(); });
+      draw();
+    })();
+  </script>
+</body>
+</html>

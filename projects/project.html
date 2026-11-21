@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../" data-page="projects">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project · freechains</title>
+  <meta name="theme-color" content="#05060d">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/vendor/katex.min.css">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+  <main class="page narrow" id="main"><div class="muted">Loading…</div></main>
+  <script src="../assets/vendor/marked.min.js"></script>
+  <script src="../assets/vendor/katex.min.js"></script>
+  <script src="../assets/vendor/auto-render.min.js"></script>
+  <script src="../assets/js/site.js"></script>
+  <script>
+    (async () => {
+      const slug = new URLSearchParams(location.search).get("slug");
+      const [projects, progress] = await Promise.all([FC.json("content/projects.json", []), FC.json("data/progress.json", {})]);
+      const p = projects.find((x) => x.slug === slug);
+      const m = document.getElementById("main"), esc = FC.esc;
+      if (!p) { m.innerHTML = `<div class="empty">Project not found. <a href="./">Back to projects</a></div>`; return; }
+      document.title = p.title + " · freechains";
+      m.innerHTML = `
+        <p><a href="./">← All projects</a></p>
+        <div class="post-head">
+          <div class="meta"><span class="status ${esc(p.status)}">${esc(FC.statusLabel[p.status] || p.status)}</span>${(p.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+          <h1 style="margin-top:14px">${esc(p.title)}</h1>
+          <p class="page-sub" style="margin:0">${esc(p.summary || "")}</p>
+        </div>
+        ${p.cover ? `<img src="${esc(FC.url(p.cover))}" alt="" style="border-radius:16px;border:1px solid var(--line);margin-bottom:24px">` : ""}
+        ${p.type === "higgs" ? `<div class="panel" style="margin-bottom:28px">${FC.progressWidget(progress)}<div style="margin-top:14px"><a class="btn small" href="../higgs/">🔒 Open diary (owner only)</a></div></div>` : ""}
+        <article class="prose" id="body"></article>
+        ${(p.links || []).length ? `<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:26px">${p.links.map((l) => `<a class="btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label || l.url)} ↗</a>`).join("")}</div>` : ""}`;
+      FC.renderMarkdown(document.getElementById("body"), p.body || "");
+    })();
+  </script>
+</body>
+</html>

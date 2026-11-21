@@ -165,7 +165,7 @@ main { width: 100%; max-width: 1180px; margin: 0 auto; padding: 24px 20px 40px; 
 .btn:disabled { opacity: .5; cursor: default; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 
-input[type=text], input[type=number], input[type=date], input[type=search], textarea, select {
+input[type=text], input[type=password], input[type=number], input[type=date], input[type=search], textarea, select {
   width: 100%; padding: 9px 11px; border: 1px solid var(--border); border-radius: 10px;
   background: var(--surface); outline: none;
 }
@@ -427,3 +427,35 @@ mark { background: var(--warn-soft); color: inherit; border-radius: 3px; padding
   .grid[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
   .phase-row { grid-template-columns: 110px 1fr 44px; }
 }
+
+/* ---------- freechains entegrasyonu: uzay paleti ---------- */
+:root[data-theme="dark"] {
+  --bg: #05060d;
+  --surface: #0f1324;
+  --surface-2: #171c33;
+  --border: #262c4a;
+  --text: #eceefb;
+  --text-2: #b7bbd8;
+  --muted: #7d82a6;
+  --accent: #8b7bff;
+  --accent-soft: #221d4a;
+  --heat-0: #1a1f38;
+  --heat-1: #2b2a66;
+  --heat-2: #4a3fa8;
+  --heat-3: #7b68ee;
+  --heat-4: #b9b0ff;
+}
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(1000px 600px at 90% -10%, rgba(139, 123, 255, 0.14), transparent 60%),
+    radial-gradient(800px 500px at -10% 40%, rgba(76, 201, 240, 0.07), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+}
+:root[data-theme="dark"] .topbar { background: rgba(5, 6, 13, 0.75); }
+:root[data-theme="dark"] .btn.primary, :root[data-theme="dark"] .scale button.on, :root[data-theme="dark"] .choice button.on, :root[data-theme="dark"] .seg button.on { background: #7b68ee; border-color: #7b68ee; }
+.back-link { color: var(--text-2); text-decoration: none; font-size: 1.2rem; padding: 4px 8px; border-radius: 8px; }
+.back-link:hover { background: var(--surface-2); color: var(--text); }
+body.locked .nav, body.locked .top-actions, body.locked .progress-strip, body.locked .brand small { display: none; }
+.lock-card { max-width: 420px; margin: 8vh auto 0; padding: 30px 28px; }
+.footer a { color: var(--text-2); }

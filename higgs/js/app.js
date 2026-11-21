@@ -32,21 +32,29 @@
   // ---------- Durum ----------
   const defaultState = () => ({
     v: 1,
-    settings: { theme: "auto", startDate: P.startDate, extraWeeks: [] },
+    settings: { theme: "dark", startDate: P.startDate, extraWeeks: [] },
     tasks: {}, custom: {}, hours: {}, notes: {}, exams: {}, reflections: {},
     phaseChecks: {}, teacher: {}, questions: [],
     timer: { mode: "stopwatch", running: false, startedAt: 0, elapsed: 0, date: null, target: 0 }
   });
   let state;
-  try {
-    state = Object.assign(defaultState(), JSON.parse(localStorage.getItem(STORE_KEY) || "{}"));
-    state.settings = Object.assign(defaultState().settings, state.settings);
-    state.timer = Object.assign(defaultState().timer, state.timer);
-  } catch { state = defaultState(); }
+  function loadState() {
+    try {
+      state = Object.assign(defaultState(), JSON.parse(localStorage.getItem(STORE_KEY) || "{}"));
+      state.settings = Object.assign(defaultState().settings, state.settings);
+      state.timer = Object.assign(defaultState().timer, state.timer);
+    } catch { state = defaultState(); }
+  }
+  loadState();
 
-  let saveT;
-  const save = () => { clearTimeout(saveT); saveT = setTimeout(() => localStorage.setItem(STORE_KEY, JSON.stringify(state)), 150); };
-  window.addEventListener("beforeunload", () => localStorage.setItem(STORE_KEY, JSON.stringify(state)));
+  let saveT, started = false;
+  const persist = () => { if (started) localStorage.setItem(STORE_KEY, JSON.stringify(state)); };
+  const save = () => {
+    state.updatedAt = Date.now();
+    clearTimeout(saveT); saveT = setTimeout(persist, 150);
+    if (window.FCPrivate) FCPrivate.markDirty();
+  };
+  window.addEventListener("beforeunload", persist);
 
   // ---------- Program yapısı ----------
   // Slot = takvimdeki bir hafta. Program haftaları + araya eklenen vize/telafi haftaları.
@@ -1033,6 +1041,7 @@
             <button class="btn" data-action="export-md">Notları Markdown indir</button>
           </div>
         </section>
+        <section id="sync-section">${window.FCPrivate ? FCPrivate.settingsHTML() : ""}</section>
         <section>
           <h3>Sıfırla</h3>
           <button class="btn danger" data-action="reset-all">Tüm veriyi sil</button>
@@ -1072,6 +1081,7 @@
   const timerElapsed = () => state.timer.elapsed + (state.timer.running ? Date.now() - state.timer.startedAt : 0);
   const modeTarget = (m) => (m === "focus" ? 50 * 60e3 : m === "rule30" ? 30 * 60e3 : 0);
   function tick() {
+    if (!started) return;
     const el = $("#clock");
     const tm = state.timer;
     const e = timerElapsed();
@@ -1210,6 +1220,7 @@
     const el = e.target.closest("[data-action]");
     if (!el) return;
     if (el.tagName === "LABEL") e.preventDefault();
+    if (!started && el.dataset.action !== "toggle-theme") return;
     const fn = actions[el.dataset.action];
     if (fn) fn(el, e);
   });
@@ -1218,7 +1229,7 @@
       const el = e.target.closest?.(".check[data-action]");
       if (el) { e.preventDefault(); el.click(); return; }
     }
-    if (e.target.matches("input, textarea, select") || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (!started || e.target.matches("input, textarea, select") || e.metaKey || e.ctrlKey || e.altKey) return;
     const r = route();
     if (r.name === "gun" && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
       const d = r.param ? parseISO(r.param) : today();
@@ -1340,7 +1351,43 @@
     const key = location.hash;
     if (key !== lastRoute) { lastRoute = key; scrollTo(0, 0); }
   }
-  window.addEventListener("hashchange", render);
+  window.addEventListener("hashchange", () => { if (started) render(); });
+
+  // ---------- Herkese açık ilerleme özeti (not içermez) ----------
+  function publicSummary() {
+    const o = overall(), t = today(), loc = locate(t);
+    const phases = P.phases.map((ph) => {
+      const ss = SLOTS.filter((s) => s.phase === ph); let tt = 0, d = 0;
+      ss.forEach((s) => { const p = slotProgress(s); tt += p.total; d += p.done; });
+      const checks = ph.checks.every((_, i) => state.phaseChecks[`${ph.id}-${i}`]);
+      return { id: ph.id, name: ["Math foundations", "Physics bridge", "Quantum & nuclear", "Particle physics", "Higgs"][ph.id - 1], short: ["Math", "Physics", "Quantum", "Particles", "Higgs"][ph.id - 1], color: ph.color, pct: tt ? Math.round((d / tt) * 1000) / 10 : 0, cleared: checks };
+    });
+    const cur = loc.slot ? loc.slot : loc.after ? SLOTS[SLOTS.length - 1] : SLOTS[0];
+    return {
+      updated: new Date().toISOString(),
+      status: loc.before ? "before" : loc.after ? "done" : "running",
+      startDate: iso(programStart()), endDate: iso(programEnd()),
+      percent: Math.round(o.ratio * 1000) / 10, done: o.done, total: o.total,
+      hours: Math.round(o.hours * 10) / 10, plannedToDate: o.plannedToDate, streak: streak(),
+      examsPassed: Object.values(state.exams).filter((e) => e.passed).length,
+      week: cur.index + 1, totalWeeks: SLOTS.length,
+      phase: { id: cur.phase.id, name: phases[cur.phase.id - 1].name },
+      phasesDone: phases.filter((p) => p.cleared).length,
+      phases,
+      weeks: SLOTS.map((s) => ({ label: s.type === "week" ? String(s.week.n) : "break", hours: Math.round(slotProgress(s).hours * 10) / 10, future: s.start > t }))
+    };
+  }
+
+  window.HiggsAPI = {
+    storeKey: STORE_KEY,
+    getState: () => state,
+    replaceState(obj) { localStorage.setItem(STORE_KEY, JSON.stringify(obj)); loadState(); SLOTS = buildSlots(); if (started) { applyTheme(); render(); } },
+    summary: publicSummary,
+    toast,
+    refreshSettings() { const el = document.getElementById("sync-section"); if (el && window.FCPrivate) el.innerHTML = FCPrivate.settingsHTML(); }
+  };
+
+  function start() { if (started) return; started = true; loadState(); SLOTS = buildSlots(); applyTheme(); render(); }
   applyTheme();
-  render();
+  if (window.FCPrivate) FCPrivate.gate(start); else start();
 })();

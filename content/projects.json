@@ -1,0 +1,35 @@
+[
+  {
+    "slug": "higgs-diary",
+    "title": "Higgs Diary",
+    "summary": "A 23-week self-study journey from linear algebra to the Higgs boson. The diary itself is private; this page shows live progress.",
+    "status": "active",
+    "tags": ["physics", "self-study", "particle-physics"],
+    "type": "higgs",
+    "featured": true,
+    "links": [],
+    "body": "Starting point: Calculus I and Physics I done, linear algebra half-way. Goal: understand the Higgs mechanism conceptually and rebuild the **H → ZZ → 4ℓ** discovery plot from real data.\n\n| Phase | Weeks | Focus |\n|---|---|---|\n| 1 · Math foundations | 1–8 | Linear algebra, complex vectors, multivariable calculus, ODEs, probability |\n| 2 · Physics bridge | 9–13 | Waves, EM, special relativity, four-vectors, fitting |\n| 3 · Quantum + nuclear | 14–17 | Schrödinger equation, operators, spin, detectors |\n| 4 · Particle physics | 18–20 | Standard Model, Feynman diagrams, cross sections, Z peak |\n| 5 · Higgs | 21–23 | Symmetry breaking, 125 GeV peak, 5σ |\n\nThe daily notes live in a password-protected, encrypted diary that only I can open."
+  },
+  {
+    "slug": "z-boson-peak",
+    "title": "Finding the Z boson peak",
+    "summary": "Invariant mass of muon pairs from CERN open data, with a fit of the Z resonance at ~91 GeV.",
+    "status": "planned",
+    "tags": ["python", "cern-open-data", "fitting"],
+    "type": "",
+    "featured": true,
+    "links": [{ "label": "CERN Open Data", "url": "https://opendata.cern.ch/" }],
+    "body": "Planned for week 20 of the Higgs Diary. Build a function that computes the invariant mass\n\n$$M^2 = (E_1+E_2)^2 - |\\vec p_1 + \\vec p_2|^2$$\n\nfor every muon pair, histogram it, and fit the peak."
+  },
+  {
+    "slug": "higgs-4-lepton",
+    "title": "Rediscovering the Higgs in H → ZZ → 4ℓ",
+    "summary": "Select four-lepton events, compare data to signal + background simulation and compute the significance of the 125 GeV bump.",
+    "status": "planned",
+    "tags": ["python", "statistics", "higgs"],
+    "type": "",
+    "featured": false,
+    "links": [],
+    "body": "The final project of the program (weeks 21–23): a one-page report with goal, method, plot and result."
+  }
+]

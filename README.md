@@ -1,26 +1,35 @@
-# Higgs Günlüğü
+# freechains
 
-**Higgs Bozonu Çalışma Programı v2** (23 hafta · haftada 20 saat · 23 Kasım 2026 – 2 Mayıs 2027) için etkileşimli takip sitesi.
+Personal site — space-themed, dark, English. Static (GitHub Pages), no build step.
 
-Kurulum gerektirmez: `index.html` dosyasını tarayıcıda açman yeterli. Veriler tarayıcının `localStorage` alanında saklanır.
+| Path | What |
+|---|---|
+| `/` | Home: hero, public Higgs progress, featured projects, latest posts, about |
+| `/projects/` | Projects (filter by status) · `/projects/project.html?slug=…` details |
+| `/blog/` | Blog with search & tags · `/blog/post.html?slug=…` posts with Markdown + LaTeX math |
+| `/admin/` | Owner panel: write/edit posts, upload images, edit projects & profile |
+| `/higgs/` | **Higgs Günlüğü** — private, passphrase-locked study diary |
 
-## Özellikler
+## Content
 
-- **Bugün**: Haftalık şablona göre o günün bloğu (Teori / Problem / Python / Proje + not / Dinlenme), görevleri işaretleme, kendi görevini ekleme, tüm görevler bitince kutlama.
-- **Günün notu** ve enerji/odak puanı (otomatik kaydedilir).
-- **Çalışma süresi**: kronometre, 50 dakikalık odak modu ve **30 dakika kuralı** zamanlayıcısı; süre o güne otomatik yazılır, istersen elle de girebilirsin.
-- **Takıldığım soru**: 30 dakikada çıkmayan soruyu işaretle; *Sorular* sekmesinde Açık / Hocaya sor / Çözüldü olarak takip et.
-- **Cumartesi**: sınama sorusu cevabı + "kaynağa bakmadan cevaplayabildim" işareti, 5 soruluk haftalık not.
-- **Program**: 5 faz, 23 hafta, yol haritası ve haftalık ilerleme; her haftanın ayrıntı sayfası.
-- **Takvim**: tüm programın ısı haritası.
-- **İstatistik**: genel ilerleme, seri, haftalık saat grafiği, haftalık not grafiği ve 6./13./20. hafta değerlendirmesi.
-- **Kontroller**: faz sonu becerileri ve fizik hocasıyla adımlar.
-- **Araçlar**: değişmez kütle, p = 0.3·B·r, görelilik, σ·L·BR olay sayısı, 5σ anlamlılık, radyoaktif bozunma, Poisson.
-- **Vize haftası ekle** (Ayarlar): haftayı 10 saate indirip programı bir hafta kaydırır; işaretlerin kaybolmaz.
-- Açık/koyu tema, JSON yedek al/yükle, notları Markdown olarak indir, yazdırma görünümü, klavye kısayolları (← → T P N).
+- `content/site.json` — tagline, about text, public links
+- `content/projects.json` — projects (`"type": "higgs"` shows live diary progress)
+- `content/posts.json` + `content/posts/<slug>.md` — blog
+- `assets/uploads/` — images uploaded from the admin panel
 
-## Yayınlama (GitHub Pages)
+Edit them from `/admin/` (every save is a commit) or directly on github.com.
 
-Repo → **Settings → Pages → Build and deployment → Deploy from a branch** → dalı ve `/ (root)` klasörünü seç. Site birkaç dakika içinde `https://<kullanıcı>.github.io/<repo>/` adresinde açılır.
+## Privacy model
 
-> Veriler cihaza özeldir. Telefon ve bilgisayar arasında taşımak için Ayarlar → *Yedek al* / *Yedekten yükle*.
+- **Writing** to the site needs a GitHub fine-grained token with *Contents: Read and write* on this repo only. It is stored in your browser's localStorage, never in the repo.
+- **Higgs diary** data is encrypted in the browser with AES-256-GCM (key derived from your passphrase with PBKDF2-SHA256, 250k iterations) and synced to `data/diary.enc.json`. Only `data/progress.json` (percent, hours, week, streak — no notes) is public.
+- The diary's *program* (the weekly plan) is part of the public source code; your notes, answers, questions and checkmarks are not.
+- Sync is last-write-wins per device. If you lose the passphrase, the encrypted copy can't be recovered — export a JSON backup from the diary settings now and then.
+
+## Publishing
+
+1. Merge this branch into `main`.
+2. Repo → **Settings → Pages → Deploy from a branch → `main` / `(root)`**.
+3. Open `https://<user>.github.io/<repo>/admin/`, connect with your token, then open `/higgs/` and create the diary passphrase. Import your old backup from the diary's Settings → *Yedekten yükle*.
+
+Third-party: [marked](https://github.com/markedjs/marked) (MIT), [KaTeX](https://katex.org) (MIT), vendored in `assets/vendor/`.

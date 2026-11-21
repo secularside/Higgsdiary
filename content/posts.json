@@ -1,0 +1,10 @@
+[
+  {
+    "slug": "hello-universe",
+    "title": "Hello, universe",
+    "date": "2026-11-21",
+    "summary": "Why this site exists, and why an electrical engineering student is chasing a 125 GeV scalar.",
+    "tags": ["meta", "higgs"],
+    "draft": false
+  }
+]

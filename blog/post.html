@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../" data-page="blog">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Post · freechains</title>
+  <meta name="theme-color" content="#05060d">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/vendor/katex.min.css">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+  <main class="page narrow" id="main"><div class="muted">Loading…</div></main>
+  <script src="../assets/vendor/marked.min.js"></script>
+  <script src="../assets/vendor/katex.min.js"></script>
+  <script src="../assets/vendor/auto-render.min.js"></script>
+  <script src="../assets/js/site.js"></script>
+  <script src="../assets/js/listing.js"></script>
+  <script>
+    (async () => {
+      const slug = new URLSearchParams(location.search).get("slug");
+      const posts = Listing.visiblePosts(await FC.json("content/posts.json", []));
+      const i = posts.findIndex((p) => p.slug === slug);
+      const m = document.getElementById("main"), esc = FC.esc;
+      if (i < 0) { m.innerHTML = `<div class="empty">Post not found. <a href="./">Back to the blog</a></div>`; return; }
+      const p = posts[i];
+      let md = "";
+      try { md = await FC.text("content/posts/" + p.slug + ".md"); } catch { md = "_This post's content could not be loaded._"; }
+      document.title = p.title + " · freechains";
+      const newer = posts[i - 1], older = posts[i + 1];
+      m.innerHTML = `
+        <p><a href="./">← Logbook</a></p>
+        <header class="post-head">
+          <h1>${esc(p.title)}</h1>
+          <div class="meta"><time datetime="${esc(p.date)}">${FC.fmtDate(p.date, { year: "numeric", month: "long", day: "numeric" })}</time><span>·</span><span>${FC.readingTime(md)} min read</span>${(p.tags || []).map((t) => `<a class="tag" href="./?tag=${encodeURIComponent(t)}">#${esc(t)}</a>`).join("")}</div>
+        </header>
+        ${p.cover ? `<img src="${esc(FC.url(p.cover))}" alt="" style="border-radius:16px;border:1px solid var(--line);margin-bottom:26px">` : ""}
+        <article class="prose" id="body"></article>
+        <nav class="post-nav">
+          ${older ? `<a href="post.html?slug=${encodeURIComponent(older.slug)}"><small>← older</small>${esc(older.title)}</a>` : "<span></span>"}
+          ${newer ? `<a class="next" href="post.html?slug=${encodeURIComponent(newer.slug)}"><small>newer →</small>${esc(newer.title)}</a>` : ""}
+        </nav>`;
+      FC.renderMarkdown(document.getElementById("body"), md);
+    })();
+  </script>
+</body>
+</html>
