@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Higgs Günlüğü · Çalışma Programı</title>
+  <meta name="description" content="Higgs Bozonu çalışma programı için günlük takip, notlar ve ilerleme.">
+  <meta name="theme-color" content="#0f1420">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%230f1420'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23e34948'/%3E%3Cpath d='M32 4v15M32 45v15M4 32h15M45 32h15' stroke='%232a78d6' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#bugun" aria-label="Ana sayfa">
+      <svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><circle cx="32" cy="32" r="28" fill="none" stroke="currentColor" stroke-width="3" opacity=".35"/><circle cx="32" cy="32" r="9" fill="#e34948"/><path d="M32 6v13M32 45v13M6 32h13M45 32h13" stroke="#2a78d6" stroke-width="4" stroke-linecap="round"/></svg>
+      <span><strong>Higgs Günlüğü</strong><small id="brand-sub">Çalışma Programı v2</small></span>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#bugun" data-route="bugun">Bugün</a>
+      <a href="#program" data-route="program">Program</a>
+      <a href="#takvim" data-route="takvim">Takvim</a>
+      <a href="#istatistik" data-route="istatistik">İstatistik</a>
+      <a href="#gunluk" data-route="gunluk">Günlük</a>
+      <a href="#sorular" data-route="sorular">Sorular <span class="pill" id="q-count"></span></a>
+      <a href="#kontroller" data-route="kontroller">Kontroller</a>
+      <a href="#araclar" data-route="araclar">Araçlar</a>
+      <a href="#rehber" data-route="rehber">Rehber</a>
+    </nav>
+    <div class="top-actions">
+      <button class="icon-btn" data-action="toggle-theme" title="Tema değiştir" aria-label="Tema değiştir">🌓</button>
+      <button class="icon-btn" data-action="open-settings" title="Ayarlar" aria-label="Ayarlar">⚙</button>
+    </div>
+  </header>
+
+  <div class="progress-strip" id="progress-strip" aria-hidden="true"></div>
+
+  <main id="main" tabindex="-1"></main>
+
+  <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="settings" class="dialog"></dialog>
+
+  <footer class="footer">
+    Veriler yalnızca bu tarayıcıda saklanır · Ayarlar → Yedek al ile cihazlar arası taşıyabilirsin
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
