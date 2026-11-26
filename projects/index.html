@@ -19,14 +19,14 @@
   <script src="../assets/js/listing.js"></script>
   <script>
     (async () => {
-      const [projects, progress] = await Promise.all([FC.json("content/projects.json", []), FC.json("data/progress.json", {})]);
+      const [projects, progress, guitar] = await Promise.all([FC.json("content/projects.json", []), FC.json("data/progress.json", {}), FC.json("data/guitar-progress.json", {})]);
       const order = { active: 0, planned: 1, paused: 2, idea: 3, completed: 4 };
       let filter = "all";
       const statuses = ["all", ...new Set(projects.map((p) => p.status))];
       function draw() {
         document.getElementById("filters").innerHTML = statuses.map((s) => `<button class="tag ${filter === s ? "on" : ""}" data-s="${FC.esc(s)}">${s === "all" ? "all" : FC.esc(FC.statusLabel[s] || s)}</button>`).join("");
         const list = projects.filter((p) => filter === "all" || p.status === filter).sort((a, b) => (order[a.status] ?? 9) - (order[b.status] ?? 9));
-        document.getElementById("list").innerHTML = list.map((p) => Listing.projectCard(p, progress)).join("") || `<div class="empty">Nothing here yet.</div>`;
+        document.getElementById("list").innerHTML = list.map((p) => Listing.projectCard(p, progress, guitar)).join("") || `<div class="empty">Nothing here yet.</div>`;
       }
       document.getElementById("filters").addEventListener("click", (e) => { const b = e.target.closest("[data-s]"); if (b) { filter = b.dataset.s; draw(); } });
       draw();

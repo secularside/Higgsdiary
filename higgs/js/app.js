@@ -1387,6 +1387,8 @@
     refreshSettings() { const el = document.getElementById("sync-section"); if (el && window.FCPrivate) el.innerHTML = FCPrivate.settingsHTML(); }
   };
 
+  window.PrivateApp = window.HiggsAPI;
+
   function start() { if (started) return; started = true; loadState(); SLOTS = buildSlots(); applyTheme(); render(); }
   applyTheme();
   if (window.FCPrivate) FCPrivate.gate(start); else start();

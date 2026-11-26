@@ -18,7 +18,7 @@
   <script>
     (async () => {
       const slug = new URLSearchParams(location.search).get("slug");
-      const [projects, progress] = await Promise.all([FC.json("content/projects.json", []), FC.json("data/progress.json", {})]);
+      const [projects, progress, guitar] = await Promise.all([FC.json("content/projects.json", []), FC.json("data/progress.json", {}), FC.json("data/guitar-progress.json", {})]);
       const p = projects.find((x) => x.slug === slug);
       const m = document.getElementById("main"), esc = FC.esc;
       if (!p) { m.innerHTML = `<div class="empty">Project not found. <a href="./">Back to projects</a></div>`; return; }
@@ -32,6 +32,7 @@
         </div>
         ${p.cover ? `<img src="${esc(FC.url(p.cover))}" alt="" style="border-radius:16px;border:1px solid var(--line);margin-bottom:24px">` : ""}
         ${p.type === "higgs" ? `<div class="panel" style="margin-bottom:28px">${FC.progressWidget(progress)}<div style="margin-top:14px"><a class="btn small" href="../higgs/">🔒 Open diary (owner only)</a></div></div>` : ""}
+        ${p.type === "guitar" ? `<div class="panel" style="margin-bottom:28px">${FC.guitarWidget(guitar)}<div style="margin-top:14px"><a class="btn small" href="../guitar/">🔒 Open guitar diary (owner only)</a></div></div>` : ""}
         <article class="prose" id="body"></article>
         ${(p.links || []).length ? `<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:26px">${p.links.map((l) => `<a class="btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label || l.url)} ↗</a>`).join("")}</div>` : ""}`;
       FC.renderMarkdown(document.getElementById("body"), p.body || "");

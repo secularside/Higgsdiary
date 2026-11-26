@@ -1,0 +1,59 @@
+/* Gitar Günlüğü — higgs/css/style.css üzerine eklemeler */
+.brand-ico { font-size: 1.5rem; line-height: 1; }
+.chip { display: inline-flex; align-items: center; gap: 4px; font-size: .74rem; font-weight: 600; padding: 1px 8px; border-radius: 99px; background: var(--surface-2); color: var(--text-2); border: 1px solid var(--border); white-space: nowrap; }
+.chip.bpm { color: #4cc9f0; border-color: rgba(76, 201, 240, .35); background: rgba(76, 201, 240, .08); }
+.chip.song { color: #ff8fb3; border-color: rgba(255, 107, 154, .35); background: rgba(255, 107, 154, .08); }
+.task-tools { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
+.task-tools .btn.small { padding: 2px 9px; font-size: .76rem; }
+.bpm-log { display: inline-flex; align-items: center; gap: 4px; font-size: .76rem; color: var(--muted); }
+.bpm-log input { width: 64px; padding: 2px 6px; font-size: .8rem; border-radius: 8px; }
+.guide { margin-top: 8px; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); font-size: .85rem; }
+.guide b { display: block; margin-bottom: 2px; }
+.guide .tip { color: var(--warn); margin-top: 4px; }
+
+/* Metronom */
+.metro { text-align: center; }
+.metro .bpm { font-family: var(--mono); font-size: 3rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.metro .bpm small { font-size: .9rem; color: var(--muted); font-weight: 500; margin-left: 4px; }
+.beats { display: flex; gap: 10px; justify-content: center; margin: 14px 0; }
+.beats i { width: 16px; height: 16px; border-radius: 50%; background: var(--surface-2); border: 1px solid var(--border); transition: background .05s, box-shadow .05s; }
+.beats i.on { background: #8b7bff; box-shadow: 0 0 14px #8b7bff; }
+.beats i.on.accent { background: #ff6b9a; box-shadow: 0 0 14px #ff6b9a; }
+.metro input[type=range] { width: 100%; accent-color: #8b7bff; }
+.metro .row-btns { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+
+/* Set zamanlayıcı */
+.settimer .phase { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.settimer .phase.work { color: var(--good); }
+.settimer .phase.rest { color: var(--warn); }
+.settimer .clock { font-family: var(--mono); font-size: 2.4rem; font-weight: 800; text-align: center; font-variant-numeric: tabular-nums; }
+.set-dots { display: flex; gap: 6px; justify-content: center; margin: 6px 0 10px; }
+.set-dots i { width: 26px; height: 6px; border-radius: 99px; background: var(--surface-2); }
+.set-dots i.done { background: var(--good); }
+.set-dots i.cur { background: #8b7bff; }
+
+/* Plan ızgarası */
+.week-row { display: grid; grid-template-columns: 170px 1fr 110px; gap: 14px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.week-row:last-child { border-bottom: 0; }
+.week-row .wt b { display: block; }
+.week-row .wt small { color: var(--muted); }
+.day-chips { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.day-chip { display: grid; place-items: center; text-decoration: none; color: var(--text-2); aspect-ratio: 1.4; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--border); font-weight: 700; font-size: .9rem; position: relative; }
+.day-chip:hover { border-color: #8b7bff; }
+.day-chip.part { background: #2b2a66; color: #fff; }
+.day-chip.done { background: #7b68ee; color: #fff; border-color: transparent; }
+.day-chip.cur { outline: 2px solid #ff6b9a; outline-offset: 1px; }
+.day-chip.rep::after { content: "↻"; position: absolute; top: 1px; right: 4px; font-size: .6rem; opacity: .8; }
+@media (max-width: 700px) { .week-row { grid-template-columns: 1fr; gap: 8px; } }
+
+.song-card .head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.song-card h3 { margin: 0; }
+.song-card select { width: auto; padding: 4px 8px; font-size: .85rem; }
+.lvl { font-size: .72rem; font-weight: 700; padding: 1px 8px; border-radius: 99px; }
+.lvl.k { color: var(--good); background: var(--good-soft); }
+.lvl.ko { color: #4cc9f0; background: rgba(76, 201, 240, .1); }
+.lvl.o { color: var(--warn); background: var(--warn-soft); }
+.lvl.oz { color: var(--bad); background: var(--bad-soft); }
+.song-status-1 { border-left: 3px solid var(--warn); }
+.song-status-2 { border-left: 3px solid #4cc9f0; }
+.song-status-3 { border-left: 3px solid var(--good); }

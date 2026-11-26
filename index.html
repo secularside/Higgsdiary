@@ -55,11 +55,12 @@
         FC.json("content/site.json", {}), FC.json("content/projects.json", []),
         FC.json("content/posts.json", []), FC.json("data/progress.json", {})
       ]);
+      const guitar = await FC.json("data/guitar-progress.json", {});
       document.getElementById("tagline").textContent = site.tagline || "";
       FC.renderMarkdown(document.getElementById("about"), site.about || "");
       document.getElementById("progress").innerHTML = FC.progressWidget(progress);
       const feat = projects.filter((p) => p.featured);
-      document.getElementById("projects").innerHTML = (feat.length ? feat : projects).slice(0, 3).map((p) => Listing.projectCard(p, progress)).join("") || `<div class="empty">No projects yet.</div>`;
+      document.getElementById("projects").innerHTML = (feat.length ? feat : projects).slice(0, 3).map((p) => Listing.projectCard(p, progress, guitar)).join("") || `<div class="empty">No projects yet.</div>`;
       document.getElementById("posts").innerHTML = Listing.visiblePosts(posts).slice(0, 3).map(Listing.postItem).join("") || `<div class="empty">No posts yet.</div>`;
     })();
   </script>

@@ -196,7 +196,7 @@
       ${ps.map((p, i) => `
         <details class="panel" style="margin-bottom:12px" ${p._open ? "open" : ""} data-i="${i}">
           <summary style="cursor:pointer;display:flex;gap:10px;align-items:center;justify-content:space-between;list-style:none">
-            <span><span class="status ${esc(p.status)}">${esc(FC.statusLabel[p.status] || p.status)}</span> <b style="margin-left:6px">${esc(p.title || "Untitled")}</b> ${p.featured ? "⭐" : ""} ${p.type === "higgs" ? "🔒" : ""}</span>
+            <span><span class="status ${esc(p.status)}">${esc(FC.statusLabel[p.status] || p.status)}</span> <b style="margin-left:6px">${esc(p.title || "Untitled")}</b> ${p.featured ? "⭐" : ""} ${p.type === "higgs" || p.type === "guitar" ? "🔒" : ""}</span>
             <span style="display:flex;gap:4px">
               <button class="btn small" data-a="move" data-i="${i}" data-d="-1" ${i === 0 ? "disabled" : ""} title="Move up">↑</button>
               <button class="btn small" data-a="move" data-i="${i}" data-d="1" ${i === ps.length - 1 ? "disabled" : ""} title="Move down">↓</button>
@@ -218,7 +218,7 @@
             <label class="field"><span>Details (Markdown, math allowed)</span><textarea data-p="body" data-i="${i}" style="min-height:160px;font-family:var(--mono);font-size:.86rem">${esc(p.body || "")}</textarea></label>
             <div style="display:flex;gap:18px;flex-wrap:wrap">
               <label style="display:flex;gap:8px;align-items:center;cursor:pointer"><input type="checkbox" data-p="featured" data-i="${i}" ${p.featured ? "checked" : ""}> Featured on home page</label>
-              <label style="display:flex;gap:8px;align-items:center;cursor:pointer"><input type="checkbox" data-p="higgs" data-i="${i}" ${p.type === "higgs" ? "checked" : ""}> Show Higgs Diary progress</label>
+              <label style="display:flex;gap:8px;align-items:center">Live progress: <select data-p="type" data-i="${i}" style="width:auto">${[["", "none"], ["higgs", "Higgs Diary"], ["guitar", "Guitar diary"]].map(([k, v]) => `<option value="${k}" ${(p.type || "") === k ? "selected" : ""}>${v}</option>`).join("")}</select></label>
             </div>
           </div>
         </details>`).join("") || `<div class="empty">No projects yet.</div>`}`;
@@ -301,7 +301,7 @@ print("hello, Higgs")
       if (f === "tags") p.tags = el.value.split(",").map((s) => s.trim()).filter(Boolean);
       else if (f === "links") p.links = el.value.split("\n").map((l) => l.split("|").map((s) => s.trim())).filter(([a, b]) => a || b).map(([label, url]) => (url ? { label, url } : { label: label, url: label }));
       else if (f === "featured") p.featured = el.checked;
-      else if (f === "higgs") p.type = el.checked ? "higgs" : "";
+      else if (f === "type") p.type = el.value;
       else p[f] = el.value;
     } else if (el.dataset.s) data.site[el.dataset.s] = el.value;
     else if (el.dataset.link) { data.site.links = data.site.links || {}; data.site.links[el.dataset.link] = el.value.trim(); }
@@ -309,6 +309,7 @@ print("hello, Higgs")
   main.addEventListener("change", (e) => {
     if (e.target.matches('[data-a="upload"]')) uploadImage(e.target);
     else if (e.target.dataset.p === "status") data.projects[+e.target.dataset.i].status = e.target.value;
+    else if (e.target.dataset.p === "type") data.projects[+e.target.dataset.i].type = e.target.value;
   });
   addEventListener("beforeunload", (e) => { if (editing) { e.preventDefault(); e.returnValue = ""; } });
 

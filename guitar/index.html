@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gitar Günlüğü · freechains</title>
+  <meta name="theme-color" content="#05060d">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../higgs/css/style.css">
+  <link rel="stylesheet" href="css/guitar.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="back-link" href="../" title="freechains ana sayfa" aria-label="freechains ana sayfa">←</a>
+    <a class="brand" href="#bugun" aria-label="Gitar günlüğü ana sayfası">
+      <span class="brand-ico" aria-hidden="true">🎸</span>
+      <span><strong>Gitar Günlüğü</strong><small id="brand-sub">53 günlük rock planı</small></span>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#bugun" data-route="bugun">Bugün</a>
+      <a href="#plan" data-route="plan">Plan</a>
+      <a href="#riffler" data-route="riffler">Riffler</a>
+      <a href="#egzersizler" data-route="egzersizler">Egzersizler</a>
+      <a href="#istatistik" data-route="istatistik">İstatistik</a>
+      <a href="#notlar" data-route="notlar">Notlar</a>
+    </nav>
+    <div class="top-actions">
+      <button class="icon-btn" data-action="open-settings" title="Ayarlar" aria-label="Ayarlar">⚙</button>
+    </div>
+  </header>
+  <div class="progress-strip" id="progress-strip" aria-hidden="true"></div>
+  <main id="main" tabindex="-1"></main>
+  <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="settings" class="dialog"></dialog>
+  <footer class="footer">🔒 Özel alan · notlar şifreli senkronize edilir · <a href="../">freechains</a></footer>
+
+  <script>
+    window.PRIVATE_CFG = {
+      name: "Gitar Günlüğü", metaKey: "fc-guitar-sync", vault: "data/guitar.enc.json", progress: "data/guitar-progress.json",
+      commitLabel: "Guitar diary sync", publicLink: "../projects/project.html?slug=rock-guitar",
+      publicNote: "tamamlanan gün, dakika, seri", siblings: ["data/diary.enc.json"]
+    };
+  </script>
+  <script src="../assets/js/github.js"></script>
+  <script src="../assets/js/private.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

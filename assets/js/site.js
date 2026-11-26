@@ -62,6 +62,27 @@
       clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), 2600);
     },
     statusLabel: { active: "In progress", planned: "Planned", completed: "Completed", paused: "Paused", idea: "Idea" },
+    /** Public guitar progress widget (reads data/guitar-progress.json — no notes). */
+    guitarWidget(p, compact) {
+      if (!p || !p.totalDays) return `<div class="muted" style="font-size:.9rem">Progress will appear here after the first sync from the private guitar diary.</div>`;
+      const pct = Math.round(p.percent);
+      const label = p.status === "done" ? "All 53 days done 🤘" : p.status === "before" ? "Day 1 coming up" : `Day ${p.currentDay} of ${p.totalDays} · ${esc(p.weekLabel)}`;
+      return `
+        <div class="progress">
+          <div class="big"><b>${p.daysDone}/${p.totalDays}</b><span class="muted">${esc(label)}</span></div>
+          <div class="pbar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>
+          <div class="phases" style="grid-template-columns:repeat(${(p.weeks || []).length || 8},1fr)">${(p.weeks || []).map((w) => `<div class="ph" title="Week ${esc(w.label)}: ${w.done}/${w.total} days"><div class="pbar"><i style="width:${(w.done / w.total) * 100}%;background:#8b7bff"></i></div>${w.label === "F" ? "Final" : "W" + esc(w.label)}</div>`).join("")}</div>
+          ${compact ? "" : `
+          <div class="stats">
+            <div class="stat"><b>${p.minutes}</b><span>minutes played</span></div>
+            <div class="stat"><b>${p.streak}</b><span>day streak</span></div>
+            <div class="stat"><b>${p.songsLearned}/${p.songsTotal}</b><span>songs playable</span></div>
+            <div class="stat"><b>${pct}%</b><span>of the plan</span></div>
+          </div>
+          ${p.currentSong ? `<div style="font-size:.9rem">🎸 Now learning: <b>${esc(p.currentSong)}</b></div>` : ""}`}
+          <div class="muted" style="font-size:.75rem">Updated ${p.updated ? new Date(p.updated).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" }) : "—"}</div>
+        </div>`;
+    },
     /** Public Higgs progress widget (reads data/progress.json, contains no private notes). */
     progressWidget(p, compact) {
       if (!p || !p.total) return `<div class="muted" style="font-size:.9rem">Progress will appear here after the first sync from the private diary.</div>`;
@@ -98,6 +119,7 @@
       <a href="${FC.url("projects/")}" class="${active === "projects" ? "active" : ""}">Projects</a>
       <a href="${FC.url("blog/")}" class="${active === "blog" ? "active" : ""}">Blog</a>
       <a href="${FC.url("higgs/")}" class="${active === "higgs" ? "active" : ""}" title="Private">Higgs Diary <span aria-hidden="true">🔒</span></a>
+      <a href="${FC.url("guitar/")}" class="${active === "guitar" ? "active" : ""}" title="Private">Guitar <span aria-hidden="true">🔒</span></a>
     </nav></div>`;
   document.body.prepend(header);
   const footer = document.createElement("footer");
